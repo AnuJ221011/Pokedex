@@ -1,4 +1,5 @@
 .pokemon{
+    background: linear-gradient(to bottom, #8d6e63, #d7ccc8);
     margin-top: 1rem;
     flex-basis: 19%;
     height: 250px;
@@ -13,8 +14,8 @@
 
 .pokemon-image{
     margin-top: 1rem;
-    width: 150px;
-    max-height: 80%;
+    width: 170px;
+    height: 170px;
 }
 
 .pokemon-name{

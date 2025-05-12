@@ -19,7 +19,9 @@ function PokemonList(){
         const response = await axios.get(pokedexUrl); // this download the list of 20 pokemons
         const pokemonResults = response.data.results; // We get the array of pokemons from the result
 
-        console.log(response.data);
+        // console.log(response.data);
+        // console.log(pokemonResults);
+
         setNextUrl(response.data.next);
         setPrevUrl(response.data.previous);
 
@@ -35,10 +37,18 @@ function PokemonList(){
         const pokeListResult = pokemonData.map((pokeData) => {
             const pokemon = pokeData.data;
             return {
-                id:pokemon.id,
-                name : pokemon.name, image : (pokemon.sprites.other) ? pokemon.sprites.other.dream_world.front_default : pokemon.sprites.front_shiny, types : pokemon.types}
+                 id: pokemon.id,
+                    name: pokemon.name,
+                    image: pokemon.sprites.other?.dream_world?.front_default || pokemon.sprites.front_default,
+                    types: pokemon.types,
+                    height: pokemon.height,
+                    weight: pokemon.weight,
+                    abilities: pokemon.abilities,
+                    baseStats: pokemon.stats,
+                    baseExperience: pokemon.base_experience,
+                }
         });
-        console.log(pokeListResult);
+        // console.log(pokeListResult);
         setPokemonList(pokeListResult);
 
         setIsLoading(false);
