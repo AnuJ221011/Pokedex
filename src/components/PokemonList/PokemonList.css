@@ -30,3 +30,20 @@
     cursor: not-allowed;
     opacity: 0.7;
 }
+
+.no-results{
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.search-term{
+    font-size: 1.5rem;
+    color: blue;
+}

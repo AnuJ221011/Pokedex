@@ -11,7 +11,7 @@ function usePokemonDetails(id, pokemonName) {
         try {
             let response;
             if(pokemonName){
-                console.log('fetching by name');
+                // console.log('fetching by name');
                 response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
             } else {
                 response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
