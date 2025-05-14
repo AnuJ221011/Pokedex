@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import usePokemonDetails from "../../hooks/usePokemonDetails";
 import './PokemonDetails.css';
 import {useNavigate } from 'react-router-dom';
 
@@ -25,41 +24,23 @@ function getStatIcon(statName) {
 }
 
 
-function PokemonDetails() {
+function PokemonDetails({pokemonName}) {
     const { id } = useParams();
-    const [pokemon, setPokemon] = useState(null);
+    const [pokemon, isLoading] = usePokemonDetails(id, pokemonName);
 
     const navigate = useNavigate();
 
+    const handleClose = () => {
+        navigate('/', { replace: true });
+    };
 
-    useEffect(() => {
-        async function downloadPokemon() {
-            try {
-                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-                setPokemon({
-                    name: response.data.name,
-                    image: response.data.sprites.other?.dream_world?.front_default || response.data.sprites.front_default,
-                    weight: response.data.weight,
-                    height: response.data.height,
-                    types: response.data.types.map((t) => t.type.name),
-                    stats: response.data.stats.map((s) => ({
-                        name: s.stat.name,
-                        value: s.base_stat
-                    }))
-                });
-            } catch (error) {
-                console.error("Failed to fetch Pokémon details", error);
-            }
-        }
-
-        downloadPokemon();
-    }, [id]);
-
-    if (!pokemon) return <div>Loading...</div>;
+    if (isLoading || !pokemon) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="card">
-            <button className="close-button" onClick={() => navigate(-1)}>❌</button>
+            <button className="close-button" onClick={handleClose}>❌</button>
             <img className="pokemon-img" src={pokemon.image} alt={pokemon.name} />
             <h2 className="pokemon-name">{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
 
@@ -94,6 +75,19 @@ function PokemonDetails() {
                     </div>
                 ))}
             </div>
+
+            {
+                pokemon.types && pokemon.similarPokemons && 
+                <div>
+                    more {pokemon.types[0]} type pokemons
+
+                    <ul>
+                        {pokemon.similarPokemons.map((p) => <li key={p.pokemon.url}>{p.pokemon.name}</li>)}
+
+                    </ul>
+                </div>
+            }
+
         </div>
     );
 }
